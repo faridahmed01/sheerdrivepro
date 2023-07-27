@@ -152,6 +152,8 @@ class AppTheme {
 
 // Define the Input Text Field theme
     inputDecorationTheme: InputDecorationTheme(
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+
       fillColor: kTextFeildFillColor,
       filled: true,
       // Customize the text field border

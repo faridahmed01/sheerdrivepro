@@ -13,6 +13,12 @@ class BuyerInquiryScreen extends StatefulWidget {
 }
 
 class _BuyerInquiryScreenState extends State<BuyerInquiryScreen> {
+  String? designation;
+  List<String> designationList = [
+    "Test Store 1",
+    "Test Store 2",
+    "Test Store 3"
+  ];
   @override
   Widget build(BuildContext context) {
     var themedata = Theme.of(context);
@@ -124,9 +130,50 @@ class _BuyerInquiryScreenState extends State<BuyerInquiryScreen> {
                           ),
                         ),
                       ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "Select Store",
+                      DropdownButtonHideUnderline(
+                        child: DropdownButtonFormField<String>(
+                          validator: (String? val) {
+                            if (val == null) {
+                              return 'Select Store is Required';
+                            } else if (val.isEmpty) {
+                              return 'Select Store is Required';
+                            } else {
+                              return null;
+                            }
+                          },
+                          isExpanded: true,
+                          isDense: true,
+                          value: designation,
+                          decoration: const InputDecoration(
+                            labelText: 'Select Store',
+                          ),
+                          items: designationList
+                              .map(
+                                (String des) => DropdownMenuItem<String>(
+                                  value: des,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(des),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (String? value) {
+                            setState(() {
+                              designation = value;
+                            });
+                          },
+                          onSaved: (String? value) {
+                            setState(() {
+                              designation = value;
+                            });
+                          },
+                          // style: themedata.textTheme.bodyLarge!.copyWith(
+                          //   fontSize: 20 * SizeConfig.safeAreaTextScalingFactor,
+                          // ),
                         ),
                       ),
                       const SizedBox(
