@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../../common/assets.dart';
 import '../../common/size_config.dart';
 import '../../constant.dart';
 
-class ContactUsScreen extends StatefulWidget {
-  const ContactUsScreen({super.key});
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
-  State<ContactUsScreen> createState() => _ContactUsScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _ContactUsScreenState extends State<ContactUsScreen> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var themedata = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Contact Us"),
+        title: const Text("Edit Profile"),
         leading: Builder(
           builder: (context) => IconButton(
             icon: const Icon(
@@ -29,18 +26,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(
-              Assets.refreshIcon,
-            ),
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: SizeConfig.screenHeight / 1.1,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +65,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Phone No.",
+                          "Mobile No",
                           style: themedata.textTheme.bodyLarge!.copyWith(
                             fontSize: 17 * SizeConfig.safeAreaTextScalingFactor,
                             letterSpacing: 0.2,
@@ -88,7 +76,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       TextFormField(
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
-                          labelText: "Enter Phone No.",
+                          labelText: "Enter Mobile No.",
                         ),
                       ),
                       const SizedBox(
@@ -97,7 +85,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Subject",
+                          "Email",
                           style: themedata.textTheme.bodyLarge!.copyWith(
                             fontSize: 17 * SizeConfig.safeAreaTextScalingFactor,
                             letterSpacing: 0.2,
@@ -107,7 +95,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
-                          labelText: "Enter Subject",
+                          labelText: "Enter email",
                         ),
                       ),
                       const SizedBox(
@@ -116,7 +104,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Message",
+                          "Join Date",
                           style: themedata.textTheme.bodyLarge!.copyWith(
                             fontSize: 17 * SizeConfig.safeAreaTextScalingFactor,
                             letterSpacing: 0.2,
@@ -126,7 +114,64 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
-                          labelText: "Enter Message",
+                          labelText: "Enter Join Date",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Location",
+                          style: themedata.textTheme.bodyLarge!.copyWith(
+                            fontSize: 17 * SizeConfig.safeAreaTextScalingFactor,
+                            letterSpacing: 0.2,
+                            color: kBlackColor,
+                          ),
+                        ),
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "Enter Location",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Category",
+                          style: themedata.textTheme.bodyLarge!.copyWith(
+                            fontSize: 17 * SizeConfig.safeAreaTextScalingFactor,
+                            letterSpacing: 0.2,
+                            color: kBlackColor,
+                          ),
+                        ),
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "Enter Category",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "GST Number",
+                          style: themedata.textTheme.bodyLarge!.copyWith(
+                            fontSize: 17 * SizeConfig.safeAreaTextScalingFactor,
+                            letterSpacing: 0.2,
+                            color: kBlackColor,
+                          ),
+                        ),
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "Enter GST Number",
                         ),
                       ),
                       const SizedBox(
@@ -136,19 +181,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         width: SizeConfig.screenWidth,
                         child: ElevatedButton(
                           onPressed: () {},
-                          child: const Text("Submit"),
+                          child: const Text("Update"),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ),
-              const SizedBox(
-                child: Image(
-                  image: AssetImage(
-                    Assets.bottomImage,
-                  ),
-                  fit: BoxFit.fitWidth,
                 ),
               ),
             ],

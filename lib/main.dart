@@ -7,6 +7,7 @@ import 'package:sheerdrivepro/view/career/career_screen.dart';
 import 'package:sheerdrivepro/view/contact-us/contact_us_screen.dart';
 import 'package:sheerdrivepro/view/home/home_screen.dart';
 import 'package:sheerdrivepro/view/initial%20view/init_event_screen.dart';
+import 'package:sheerdrivepro/view/profile/edit_profile_screen.dart';
 import 'package:sheerdrivepro/view/profile/profile_screen.dart';
 import 'package:sheerdrivepro/view/watch-List/watch_list_screen.dart';
 import 'package:sheerdrivepro/view/wins/wins_screen.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMsgKey,
       navigatorKey: navigatorKey,
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
@@ -51,7 +53,8 @@ class MyApp extends StatelessWidget {
         Routes.auctionDetailsScreen: (context) => const AuctionDetailsScreen(),
         Routes.watchListScreen: (context) => const WatchListScreen(),
         Routes.winsScreen: (context) => const WinsScreen(),
-        Routes.profleScreen: (context) => const ProfleScreen(),
+        Routes.profleScreen: (context) => const ProfileScreen(),
+        Routes.editProfleScreen: (context) => const EditProfileScreen(),
         Routes.contactUsScreen: (context) => const ContactUsScreen(),
         Routes.careerScreen: (context) => const CareerScreen(),
       },

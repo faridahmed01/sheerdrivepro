@@ -1,11 +1,17 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sheerdrivepro/common/assets.dart';
 import 'package:sheerdrivepro/common/size_config.dart';
 import 'package:sheerdrivepro/constant.dart';
+import 'package:http/http.dart' as http;
 
+import '../../api-service/api_service.dart';
 import '../../common/routes.dart';
+import '../../common/status_bar_color.dart';
+import '../../common/utilities.dart';
 
 class LoginCredentialScreen extends StatefulWidget {
   const LoginCredentialScreen({super.key});
@@ -15,6 +21,68 @@ class LoginCredentialScreen extends StatefulWidget {
 }
 
 class _LoginCredentialScreenState extends State<LoginCredentialScreen> {
+  bool isLoading = false;
+
+  final TextEditingController usernameController =
+      TextEditingController(text: "");
+  final TextEditingController passwordController =
+      TextEditingController(text: "");
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String? validateUserId(String? value) {
+    if (value!.isEmpty) {
+      return 'Enter Username ';
+    } else {
+      return null;
+    }
+  }
+
+  String? validatePassword(String? value) {
+    if (value!.isEmpty) {
+      return 'Enter Password ';
+    } else {
+      return null;
+    }
+  }
+
+  loginWithCrediantialSubmit() async {
+    setState(() {
+      isLoading = true;
+    });
+    final Uri url = Uri.parse(APIService.loginWithCrediantial.url);
+
+    Map<String, dynamic> request = {
+      "userId": usernameController.text,
+      "password": passwordController.text,
+    };
+
+    var apiResponse = await http.post(
+      url,
+      body: json.encode(request),
+      headers: await APIService.nonAuthHeaders,
+    );
+
+    if (apiResponse.statusCode == 200) {
+      var responseBody = json.decode(apiResponse.body);
+      String authToken = responseBody['response'];
+      await Utilities.saveAuthToken(authToken);
+      setState(() {
+        isLoading = false;
+      });
+      navigateToHomeScreen();
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      var errResBody = json.decode(apiResponse.body);
+      Utilities.showSnackBarWithoutKey(
+        isError: true,
+        title: "Worng Credential",
+        message: errResBody['error'] ?? 'Something went wrong',
+      );
+    }
+  }
+
   navigateToHomeScreen() {
     Navigator.of(context).pushReplacementNamed(
       Routes.homeScreen,
@@ -25,92 +93,91 @@ class _LoginCredentialScreenState extends State<LoginCredentialScreen> {
   @override
   Widget build(BuildContext context) {
     var themedata = Theme.of(context);
-    return Scaffold(
-      backgroundColor: kWhiteColor,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark.copyWith(
-          statusBarColor: themedata.primaryColor,
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
+    return StatusBarColorChanger(
+      isColorChange: true,
+      isDark: false,
+      child: Scaffold(
+        backgroundColor: kWhiteColor,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                child: Image(
+                  image: AssetImage(
+                    Assets.vehiclesBgImage,
+                  ),
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Center(
+                child: SizedBox(
                   child: Image(
                     image: AssetImage(
-                      Assets.vehiclesBgImage,
-                    ),
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Center(
-                  child: SizedBox(
-                    child: Image(
-                      image: AssetImage(
-                        Assets.sheerdriveProLogoImage,
-                      ),
+                      Assets.sheerdriveProLogoImage,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Center(
-                  child: Text(
-                    "Log in to your Account",
-                    style: themedata.textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: Text(
+                  "Log in to your Account",
+                  style: themedata.textTheme.titleLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Center(
-                  child: Material(
-                    borderRadius: BorderRadius.circular(10),
-                    color: kWhiteColor,
-                    child: InkWell(
-                      splashColor: themedata.primaryColor.withOpacity(0.60),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          Routes.loginScreen,
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: themedata.primaryColor,
-                            ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: Material(
+                  borderRadius: BorderRadius.circular(10),
+                  color: kWhiteColor,
+                  child: InkWell(
+                    splashColor: themedata.primaryColor.withOpacity(0.60),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        Routes.loginScreen,
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: themedata.primaryColor,
                           ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 6),
-                          child: Text(
-                            "Login With OTP",
-                            style: themedata.textTheme.titleMedium!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: themedata.primaryColor,
-                              fontSize:
-                                  18 * SizeConfig.safeAreaTextScalingFactor,
-                            ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: Text(
+                          "Login With OTP",
+                          style: themedata.textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: themedata.primaryColor,
+                            fontSize: 18 * SizeConfig.safeAreaTextScalingFactor,
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 20,
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -126,10 +193,22 @@ class _LoginCredentialScreenState extends State<LoginCredentialScreen> {
                         height: 10,
                       ),
                       TextFormField(
+                        validator: validateUserId,
+                        controller: usernameController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: const InputDecoration(
                           hintText: "Enter Username",
                         ),
+                        onFieldSubmitted: (String? value) {
+                          setState(() {
+                            usernameController.text = value!;
+                          });
+                        },
+                        onSaved: (String? value) {
+                          setState(() {
+                            usernameController.text = value!;
+                          });
+                        },
                       ),
                       const SizedBox(
                         height: 20,
@@ -146,6 +225,7 @@ class _LoginCredentialScreenState extends State<LoginCredentialScreen> {
                         height: 10,
                       ),
                       TextFormField(
+                        validator: validatePassword,
                         obscureText: passwordVisible ? false : true,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
@@ -165,6 +245,16 @@ class _LoginCredentialScreenState extends State<LoginCredentialScreen> {
                           ),
                           hintText: "Enter Password",
                         ),
+                        onFieldSubmitted: (String? value) {
+                          setState(() {
+                            passwordController.text = value!;
+                          });
+                        },
+                        onSaved: (String? value) {
+                          setState(() {
+                            passwordController.text = value!;
+                          });
+                        },
                       ),
                       const SizedBox(
                         height: 5,
@@ -211,17 +301,31 @@ class _LoginCredentialScreenState extends State<LoginCredentialScreen> {
                       SizedBox(
                         width: SizeConfig.screenWidth - 39,
                         child: ElevatedButton(
-                          onPressed: () {
-                            navigateToHomeScreen();
-                          },
-                          child: const Text("Sign In"),
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  if (_formKey.currentState!.validate()) {
+                                    loginWithCrediantialSubmit();
+                                  }
+                                },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Sign In"),
+                              if (isLoading)
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                              if (isLoading) const CupertinoActivityIndicator()
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

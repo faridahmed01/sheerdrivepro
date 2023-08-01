@@ -18,6 +18,11 @@ dependencies:
   flutter_svg: ^2.0.7
   pin_code_fields: ^8.0.1
   carousel_slider: ^4.2.1
+  provider: ^6.0.5
+  http: ^1.1.0
+  json_annotation: ^4.8.1
+  shared_preferences: ^2.2.0
+  jwt_decoder: ^2.0.1
 
 
 dev_dependencies:
@@ -26,6 +31,8 @@ dev_dependencies:
 
 
   flutter_lints: ^2.0.0
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.6
 
 flutter:
 

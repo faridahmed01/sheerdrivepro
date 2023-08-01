@@ -59,12 +59,12 @@ class AppTheme {
         ),
         backgroundColor: MaterialStateProperty.resolveWith(
           (states) => states.contains(MaterialState.disabled)
-              ? kLightGreyColor
+              ? kLightGreyColor.withOpacity(0.3)
               : kPrimaryColor,
         ),
         foregroundColor: MaterialStateProperty.resolveWith(
           (states) => states.contains(MaterialState.disabled)
-              ? kLightGreyColor.withOpacity(0.52)
+              ? kGreyTextColor
               : kWhiteColor,
         ),
         overlayColor: MaterialStateProperty.resolveWith(

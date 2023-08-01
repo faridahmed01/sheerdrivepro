@@ -299,13 +299,107 @@ class _WinsScreenState extends State<WinsScreen> {
             ),
             Center(
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showIncreaseBidDailog(context, themedata);
+                },
                 child: const Text("Increase Bid Amount"),
               ),
             )
           ],
         ),
       ),
+    );
+  }
+
+  void showIncreaseBidDailog(BuildContext context, ThemeData themeData) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Increase Bid Amount',
+                  style: themeData.textTheme.titleLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "Enter Amount",
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: SizeConfig.screenHeight / 17,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: kGreyTextColor,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              8,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Cancel",
+                              style:
+                                  themeData.textTheme.titleMedium!.copyWith(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: SizeConfig.screenHeight / 17,
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.circular(
+                              8,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Submit",
+                              style: themeData.textTheme.titleMedium!.copyWith(
+                                color: kWhiteColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

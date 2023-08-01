@@ -9,6 +9,7 @@ class Routes {
   static const watchListScreen = 'watch-list-screen';
   static const winsScreen = 'wins-screen';
   static const profleScreen = 'profile-screen';
+  static const editProfleScreen = 'edit-profile-screen';
   static const contactUsScreen = 'contact-us-screen';
   static const careerScreen = 'career-screen';
   static const buyerInquiryScreen = 'buyer-inquiry-screen';

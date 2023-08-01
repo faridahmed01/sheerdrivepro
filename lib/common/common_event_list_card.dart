@@ -50,7 +50,6 @@ class CommonEventListCard extends StatelessWidget {
           color: kWhiteColor,
           borderRadius: BorderRadius.circular(10),
         ),
-        // height: SizeConfig.screenHeight / 4,
         width: SizeConfig.screenWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

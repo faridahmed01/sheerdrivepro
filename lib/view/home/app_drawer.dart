@@ -74,7 +74,11 @@ class _AppDrawerState extends State<AppDrawer> {
                 color: kBlackColor,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).popAndPushNamed(
+                Routes.profleScreen,
+              );
+            },
           ),
           const Divider(
             color: kLightGreyColor,
