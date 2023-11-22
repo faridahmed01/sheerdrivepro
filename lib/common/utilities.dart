@@ -19,13 +19,34 @@ class Utilities {
   }
 
   static Future<LoginUserDetailDto?> getLoginUserDetails() async {
-    SharedPreferences bke = await SharedPreferences.getInstance();
-    var jsonString = bke.getString('login_details');
+    SharedPreferences sdp = await SharedPreferences.getInstance();
+    var jsonString = sdp.getString('login_details');
     if (jsonString != null) {
       return LoginUserDetailDto.fromJson(json.decode(jsonString));
     } else {
       return null;
     }
+  }
+
+  static Future<bool> saveUserIdAndDetails(
+      String uid, String phoneNumber, String name) async {
+    SharedPreferences sdp = await SharedPreferences.getInstance();
+    Map<String, dynamic> userDetails = {
+      'uuid': uid,
+      'mobileNumber': phoneNumber,
+      'name': name,
+    };
+    return await sdp.setString('user_details', json.encode(userDetails));
+  }
+
+  static Future<bool> removeUserIdAndDetails() async {
+    SharedPreferences sdp = await SharedPreferences.getInstance();
+    return await sdp.remove('user_details');
+  }
+
+  static Future<bool> removeAuthToken() async {
+    SharedPreferences sdp = await SharedPreferences.getInstance();
+    return sdp.remove('authToken');
   }
 
   static Future<bool> saveLoginUserDetails(
@@ -37,6 +58,16 @@ class Utilities {
   static Future<bool> saveAuthToken(String authToken) async {
     SharedPreferences sdp = await SharedPreferences.getInstance();
     return await sdp.setString('authToken', authToken);
+  }
+
+  static Future<Map<String, dynamic>?> getUserIdAndDetails() async {
+    SharedPreferences sdp = await SharedPreferences.getInstance();
+    var jsonData = sdp.getString('user_details');
+    if (jsonData != null) {
+      return json.decode(jsonData);
+    } else {
+      return null;
+    }
   }
 
   static void showSnackBarWithoutKey({

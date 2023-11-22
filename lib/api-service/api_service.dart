@@ -41,4 +41,10 @@ class APIService {
     method: "POST",
     requireAuth: false,
   );
+
+  static const APIEndPoint getUserDetailsFromID = APIEndPoint(
+    loginOtpURL,
+    method: "GET",
+    requireAuth: false,
+  );
 }

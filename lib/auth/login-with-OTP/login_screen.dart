@@ -49,13 +49,12 @@ class _LoginScreenState extends State<LoginScreen> {
     final String phoneNumber = mobileNoController.text;
     final Uri url =
         Uri.parse('${APIService.verifyLoginPhoneNumber.url}/$phoneNumber');
-    // print(url);
+
     var apiResponse = await http.post(
       url,
       headers: await APIService.nonAuthHeaders,
     );
-    // print(apiResponse.statusCode);
-    // print(apiResponse.body);
+
     if (apiResponse.statusCode == 200) {
       var successBody = json.decode(apiResponse.body);
       LoginUserDetailDto userDetail = LoginUserDetailDto(
@@ -196,6 +195,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               mobileNoController.text = value!;
                             });
                           },
+                          onChanged: (String? value) {
+                            setState(() {
+                              mobileNoController.text = value!;
+                            });
+                          },
                         ),
                         const SizedBox(
                           height: 20,
@@ -206,10 +210,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: isLoading
                                 ? null
                                 : () {
-                                    // if (_formKey.currentState!.validate()) {
-                                    //   validatePhoneNumber();
-                                    // }
-                                    navigateToOtpScreen("8779781455");
+                                    if (_formKey.currentState!.validate()) {
+                                      validatePhoneNumber();
+                                    }
                                   },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

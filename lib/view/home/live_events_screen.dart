@@ -13,7 +13,8 @@ class LiveEventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themedata = Theme.of(context);
-
+    // DashboardProvider dashboardProvider =
+    //     Provider.of<DashboardProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -101,49 +102,114 @@ class LiveEventsScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          SizedBox(
-            height: SizeConfig.screenHeight,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              physics: const ScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Material(
-                  color: kWhiteColor,
-                  child: InkWell(
-                    splashColor: themedata.primaryColor.withOpacity(0.3),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        Routes.auctionScreen,
-                      );
-                    },
-                    child: const CommonEventListCard(
-                      category: 'CV',
-                      eventHeading: 'Manappuram CV Rajasthan Online Auction',
-                      startDate: '06 Jul 2023 01:00 PM',
-                      location: 'North',
-                      eventID: '48398',
-                      noOfitems: '1',
-                      endDate: '10 Jul 2023 04:00 PM',
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          // const SizedBox(
-          //   height: 5,
-          // ),
-          // SizedBox(
-          //   width: SizeConfig.screenWidth - 39,
-          //   child: ElevatedButton(
-          //     onPressed: () {},
-          //     child: const Text("Send Quote Events"),
-          //   ),
-          // ),
+          LiveEventList(themedata: themedata),
         ],
       ),
     );
+  }
+}
+
+class LiveEventList extends StatelessWidget {
+  const LiveEventList({
+    super.key,
+    required this.themedata,
+  });
+
+  final ThemeData themedata;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: SizeConfig.screenHeight / 1.4,
+      child: CustomScrollView(
+        slivers: [
+          const SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: kPrimaryColor,
+                backgroundColor: kPrimaryLightColor,
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              top: 0.0,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return Container(
+                    // margin: const EdgeInsets.only(top: 4, bottom: 4.0),
+                    child: Material(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(
+                        12,
+                      ),
+                      child: InkWell(
+                        onTap: () async {
+                          Navigator.of(context).pushNamed(
+                            Routes.auctionScreen,
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(
+                          12,
+                        ),
+                        child: const CommonEventListCard(
+                          category: 'CV',
+                          eventHeading:
+                              'Manappuram CV Rajasthan Online Auction',
+                          startDate: '06 Jul 2023 01:00 PM',
+                          location: 'North',
+                          eventID: '48398',
+                          noOfitems: '1',
+                          endDate: '10 Jul 2023 04:00 PM',
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                childCount: 10,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    // SizedBox(
+    //   height: SizeConfig.screenHeight,
+    //   child: ListView.builder(
+    //     padding: const EdgeInsets.symmetric(vertical: 10),
+    //     physics: const ScrollPhysics(),
+    //     shrinkWrap: true,
+    //     itemCount: 10,
+    //     itemBuilder: (context, index) {
+    //       return Material(
+    //         color: kWhiteColor,
+    //         child: InkWell(
+    //           splashColor: themedata.primaryColor.withOpacity(0.3),
+    //           onTap: () {
+    //             Navigator.of(context).pushNamed(
+    //               Routes.auctionScreen,
+    //             );
+    //           },
+    //           child: const CommonEventListCard(
+    //             category: 'CV',
+    //             eventHeading: 'Manappuram CV Rajasthan Online Auction',
+    //             startDate: '06 Jul 2023 01:00 PM',
+    //             location: 'North',
+    //             eventID: '48398',
+    //             noOfitems: '1',
+    //             endDate: '10 Jul 2023 04:00 PM',
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }

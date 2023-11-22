@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../../api-service/api_service.dart';
 import '../../common/assets.dart';
+import '../../common/routes.dart';
 import '../../common/size_config.dart';
 import '../../common/utilities.dart';
 import '../../constant.dart';
@@ -63,13 +64,20 @@ class _OTPScreenState extends State<OTPScreen> {
         if (apiResponse.statusCode == 200) {
           var responseBody = json.decode(apiResponse.body);
 
-          String authToken = responseBody['accessToken'];
+          String authToken =
+              responseBody['response']['buyerDetails']['accessToken'];
 
           await Utilities.saveAuthToken(authToken);
+          await Utilities.saveUserIdAndDetails(
+            responseBody['response']['buyerDetails']['uuid'],
+            userDetail.phoneNumber,
+            responseBody['response']['buyerDetails']['name'],
+          );
+
           setState(() {
             isLoading = false;
           });
-          // navigateFurther(dto);
+          navigateToHomeScreen();
         } else {
           setState(() {
             isLoading = false;
@@ -105,6 +113,12 @@ class _OTPScreenState extends State<OTPScreen> {
           }
         }
       },
+    );
+  }
+
+  navigateToHomeScreen() {
+    Navigator.of(context).pushReplacementNamed(
+      Routes.homeScreen,
     );
   }
 

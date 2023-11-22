@@ -209,6 +209,11 @@ class _LoginCredentialScreenState extends State<LoginCredentialScreen> {
                             usernameController.text = value!;
                           });
                         },
+                        onChanged: (String? value) {
+                          setState(() {
+                            usernameController.text = value!;
+                          });
+                        },
                       ),
                       const SizedBox(
                         height: 20,
@@ -251,6 +256,11 @@ class _LoginCredentialScreenState extends State<LoginCredentialScreen> {
                           });
                         },
                         onSaved: (String? value) {
+                          setState(() {
+                            passwordController.text = value!;
+                          });
+                        },
+                        onChanged: (String? value) {
                           setState(() {
                             passwordController.text = value!;
                           });

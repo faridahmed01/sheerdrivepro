@@ -5,6 +5,7 @@ import 'package:sheerdrivepro/globals.dart';
 
 import '../../common/assets.dart';
 import '../../common/size_config.dart';
+import '../../common/utilities.dart';
 import '../../constant.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -269,6 +270,8 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
             ),
             onTap: () {
+              Utilities.removeAuthToken();
+              Utilities.removeUserIdAndDetails();
               navigatorKey.currentState!.pushNamedAndRemoveUntil(
                 Routes.initEventScreen,
                 (route) => false,
